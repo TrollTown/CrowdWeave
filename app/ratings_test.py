@@ -48,17 +48,18 @@ def calculateTimeOfDayCovidSafeScore(place_id):
     print(popular_times)
     current_time = datetime.now()
     current_day = current_time.weekday()
-    weekday_map = {
-        0 : "Monday",
-        1 : "Tuesday",
-        2 : "Wednesday",
-        3 : "Thursday",
-        4 : "Friday",
-        5 : "Saturday",
-        6 : "Sunday"
-    }
-    weekday = weekday_map.get(current_day)
-    return popular_times['populartimes']
+    current_hour = current_time.hour
+    # weekday_map = {
+    #     0 : "Monday",
+    #     1 : "Tuesday",
+    #     2 : "Wednesday",
+    #     3 : "Thursday",
+    #     4 : "Friday",
+    #     5 : "Saturday",
+    #     6 : "Sunday"
+    # }
+    # weekday = weekday_map.get(current_day)
+    return popular_times['populartimes'][current_day]['data'][current_hour]
 
 # Score based on ratings from users of our app (users can rate the covid safety of a particular location) 10%
 def calculateUserRatings(place_id):
