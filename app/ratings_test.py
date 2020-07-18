@@ -44,11 +44,7 @@ def calculateTimeOfDayCovidSafeScore(place_id):
     popular_times = getPopularTimes(place_id)
     print(popular_times)
 
-if __name__ == '__main__':
-    load_dotenv()
-    numRatings = 1181
-    reviewScore = calculateNumberOfReviewsCovidScore(numRatings)
-    healthScore = calculateNSWHealthCovidSafeScore(2170)
-    total = reviewScore + healthScore
-    calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
-    print(total)
+# if __name__ == '__main__':
+#     load_dotenv()
+    
+    

@@ -1,4 +1,4 @@
-from app import app, populartimes_api, database
+from app import app, populartimes_api, database, ratings_test
 from flask import request, render_template
 
 @app.route("/", methods=['GET', 'POST'])
@@ -40,5 +40,14 @@ def saveCovidSafeScore():
     command = "INSERT INTO ratings VALUES(%s, %s)"
     values = (place_id, rating)
     database.execute(command, values)
+
+@app.route("/scoreTesting", methods=['GET'])
+def scoreTesting():
+    numRatings = 1181
+    reviewScore = calculateNumberOfReviewsCovidScore(numRatings)
+    healthScore = calculateNSWHealthCovidSafeScore(2170)
+    total = reviewScore + healthScore
+    calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
+    print(total)
     
     
