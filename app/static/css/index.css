@@ -5,7 +5,55 @@
 }
 
 #map {
+    height: 95%;
+}
+
+#search {
+    top: 70px;
+    left: 10px;
+    position: absolute;
+    width: 350px;
+    max-height: 100px;
+    z-index: 2;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.75);
+    transition:all 500ms ease-in-out;
+    margin-bottom: 5px;
+}
+
+#searchBtn{ 
     height: 100%;
+    float: right;
+    background-size: cover;
+}
+
+#searchInputContainer {
+    z-index: 2;
+    background-color: white;
+    padding: 5px 5px 5px 5px;
+    top: 0px;
+    height: 100%;
+    max-height: 120px;
+    float: left;
+    width: 100%;
+    border-radius: 5px 0px 0px 5px;
+    position: relative;
+    transition:all 500ms ease-in-out;
+}
+
+#searchBtnContainer {
+    z-index: 1;
+    background-color: white;
+    left: 341px;
+    /* right: 0px; */
+    top: 0px;
+    position: absolute;
+    border-radius: 0px 5px 5px 0px;
+    height: 41px;
+    width: 107px;
+    padding: 2px;
+
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.75);
 }
 
 html, body {
