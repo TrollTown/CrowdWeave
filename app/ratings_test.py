@@ -63,5 +63,16 @@ def calculateTimeOfDayCovidSafeScore(place_id):
 
 # Score based on ratings from users of our app (users can rate the covid safety of a particular location) 10%
 def calculateUserRatings(place_id):
-    return 0
-    
+    conn = psycopg2.connect(user="covidsafe",
+                            password=os.getenv("db_password"),
+                            host="localhost",
+                            port="5432",
+                            database="covidsafe")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM ratings WHERE place_id=%s", (place_id,))
+    data = cur.fetchall()
+    if len(data) == 0:
+        return -1;
+    else:
+        return sum(data[0][0])/len(data[0][0])
+
