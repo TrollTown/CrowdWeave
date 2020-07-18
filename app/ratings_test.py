@@ -6,6 +6,7 @@ import math
 import psycopg2
 from datetime import datetime, timedelta
 import os
+from dotenv import load_dotenv
 
 def calculateNumberOfReviewsCovidScore(numRatings):
     dangerScore = math.pow(math.e, 0.004 * numRatings) - 1
@@ -36,6 +37,7 @@ def calculateNSWHealthCovidSafeScore(postcode):
     return 0
 
 if __name__ == '__main__':
+    load_dotenv()
     numRatings = 1181
     reviewScore = calculateNumberOfReviewsCovidScore(numRatings)
     healthScore = calculateNSWHealthCovidSafeScore(2154)
