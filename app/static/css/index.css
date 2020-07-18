@@ -52,8 +52,19 @@
     height: 41px;
     width: 107px;
     padding: 2px;
-
     box-shadow: 0px 0px 3px rgba(0,0,0,0.75);
+}
+
+#mySidenav {
+    height: 1000px;
+    width: 350px;
+    position: absolute;
+    z-index: 1;
+    top: 56px;
+    right: -350px;
+    background-color: #F8F9FA;
+    overflow-y: scroll;
+    transition: 0.5s;
 }
 
 html, body {

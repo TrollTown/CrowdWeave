@@ -2,10 +2,10 @@ var map;
 
 function getCovidsafeScore(place_id) {
     $.ajax({
-        url: 'https://covidsafebutbetter.trolltown.codes/covidsafeScore?place_id=' + place_id,
-        success: function (result) {
-            console.log('covidsafeScore', result);
-        }
+        url: 'https://covidsafebutbetter.trolltown.codes/covidsafeScore?place_id=' + place_id
+    }).then(function(result) {
+        console.log(result);
+        return result;
     });
 }
 
@@ -29,7 +29,9 @@ function addCovidScore(place_list) {
     let new_list = [];
 
     for (let i = 0; i < place_list.length; i++) {
-        new_list.push((place_list[i], getCovidsafeScore(place_list[i].place_id)))
+        let score = getCovidsafeScore(place_list[i].place_id);
+        let obj = {place: place_list[i], covid_score: score};
+        new_list.push(obj);
     }
 
     console.log(new_list);
@@ -41,6 +43,7 @@ function initMap() {
         zoom: 12,
         mapTypeControl: false,
         fullscreenControl: false,
+        streetViewControl: false,
         styles: [
             {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
             {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
@@ -124,6 +127,10 @@ function initMap() {
     });
 }
 
+function openNav() {
+    document.getElementById("mySidenav").style.right = "0px";
+}
+
 $(document).ready(function () {
     console.log('wazzup');
     button = document.getElementById("searchBtn");
@@ -133,6 +140,7 @@ $(document).ready(function () {
         if (place.length == 0){
             return
         }
+        openNav();
         getListOfPlaces(place);
     })
 });
