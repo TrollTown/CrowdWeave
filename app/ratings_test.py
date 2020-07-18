@@ -43,6 +43,7 @@ def calculateNSWHealthCovidSafeScore(postcode):
 def calculateTimeOfDayCovidSafeScore(place_id):
     popular_times = populartimes_api.getPopularTimes(place_id)
     print(popular_times)
+    return popular_times
 
 # if __name__ == '__main__':
 #     load_dotenv()

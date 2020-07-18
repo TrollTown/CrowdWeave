@@ -47,7 +47,11 @@ def scoreTesting():
     reviewScore = ratings_test.calculateNumberOfReviewsCovidScore(numRatings)
     healthScore = ratings_test.calculateNSWHealthCovidSafeScore(2170)
     total = reviewScore + healthScore
-    ratings_test.calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
+    popular_times = ratings_test.calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
     print(total)
+    return {
+        'popular_times' : popular_times
+    }
+
     
     
