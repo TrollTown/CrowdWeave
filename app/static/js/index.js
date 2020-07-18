@@ -1,12 +1,8 @@
 var map;
 
 function getCovidsafeScore(place_id) {
-    $.ajax({
-        url: 'https://covidsafebutbetter.trolltown.codes/covidsafeScore?place_id=' + place_id
-    }).then(function(result) {
-        console.log(result);
-        return result;
-    });
+    return fetch('https://covidsafebutbetter.trolltown.codes/covidsafeScore?place_id=' + place_id)
+    
 }
 
 function getListOfPlaces(place_name) {
@@ -19,8 +15,9 @@ function getListOfPlaces(place_name) {
     
     service.textSearch(request, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            console.log(results)
-            addCovidScore(results);
+            let x = addCovidScore(results);
+            console.log("this is x")
+            console.log(x);
         }
     });
 }
@@ -29,12 +26,15 @@ function addCovidScore(place_list) {
     let new_list = [];
 
     for (let i = 0; i < place_list.length; i++) {
-        let score = getCovidsafeScore(place_list[i].place_id);
-        let obj = {place: place_list[i], covid_score: score};
-        new_list.push(obj);
+        getCovidsafeScore(place_list[i].place_id)
+        .then(res => res.json()
+        .then(obj => {
+            new_list.push({place: place_list[i], covid_score: obj.score})
+        }));
     }
 
-    console.log(new_list);
+    // console.log(new_list);
+    return new_list;
 }
 
 function initMap() {
