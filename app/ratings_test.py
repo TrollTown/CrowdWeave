@@ -33,13 +33,15 @@ def calculateNSWHealthCovidSafeScore(postcode):
     cur.execute("SELECT COUNT(*) FROM infections WHERE postcode=%s AND notification_date >=%s", (str(postcode), formatted_date))
     data = cur.fetchall()
     print("DATA:")
-    print(data)
-    return 0
+    print(data[0][0])
+    nsw_health_covid_score = data[0][0]
+    modulated_covid_score = math.pow(math.e, 0.1 * nsw_health_covid_score) - 1
+    return modulated_covid_score
 
 if __name__ == '__main__':
     load_dotenv()
     numRatings = 1181
     reviewScore = calculateNumberOfReviewsCovidScore(numRatings)
-    healthScore = calculateNSWHealthCovidSafeScore(2154)
+    healthScore = calculateNSWHealthCovidSafeScore(2170)
     total = reviewScore + healthScore
     print(total)
