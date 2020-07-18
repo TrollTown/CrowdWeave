@@ -20,7 +20,6 @@ def calculateNumberOfReviewsCovidScore(numRatings):
         return dangerScore
 
 # NSW Health Score 60%
-
 def calculateNSWHealthCovidSafeScore(postcode):
     # Get number of covid cases in that postcode within 3 weeks
     print(os.getenv("db_password"))
@@ -36,29 +35,29 @@ def calculateNSWHealthCovidSafeScore(postcode):
     cur = conn.cursor()
     cur.execute("SELECT COUNT(*) FROM infections WHERE postcode=%s AND notification_date >=%s", (str(postcode), formatted_date))
     data = cur.fetchall()
+    if len(data) == 0:
+        return -1
     print("DATA:")
     print(data[0][0])
     nsw_health_covid_score = data[0][0]
     modulated_covid_score = math.pow(math.e, 0.1 * nsw_health_covid_score) - 1
+    if modulated_covid_score > 60:
+        return 60
     return modulated_covid_score
 
 # Score based on current popularity level 25%
 def calculateTimeOfDayCovidSafeScore(place_id):
-    popular_times = populartimes_api.getPopularTimes(place_id)
-    print(popular_times)
+    try:
+        popular_times = populartimes_api.getPopularTimes(place_id)
+        print(popular_times)
+    except Exception as e:
+        print("exception occured in calculateTimeOfDayCovidSafeScore")
+        print(e)
+        return -1
+    
     current_time = datetime.now()
     current_day = current_time.weekday()
     current_hour = current_time.hour
-    # weekday_map = {
-    #     0 : "Monday",
-    #     1 : "Tuesday",
-    #     2 : "Wednesday",
-    #     3 : "Thursday",
-    #     4 : "Friday",
-    #     5 : "Saturday",
-    #     6 : "Sunday"
-    # }
-    # weekday = weekday_map.get(current_day)
     return popular_times['populartimes'][current_day]['data'][current_hour]/4
 
 # Score based on ratings from users of our app (users can rate the covid safety of a particular location) 10%

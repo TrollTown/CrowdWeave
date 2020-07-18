@@ -1,4 +1,4 @@
-from app import app, populartimes_api, database, ratings_test
+from app import app, populartimes_api, database, score_calculator
 from flask import request, render_template
 
 @app.route("/", methods=['GET', 'POST'])
@@ -16,15 +16,26 @@ def covidsafeScore():
     # Get number of google reviews
     populartimes_result = populartimes_api.getPopularTimes(place_id)
     numRatings = populartimes_result['rating_n']
-    covidSafeScore = 10.3 - ((132 + (-263)/(1 + pow((numRatings / 1592), 0.001977))) * 10)
+    reviewScore = score_calculator.calculateNumberOfReviewsCovidScore(numRatings)
     postcode = populartimes_result['address'][4:]
-    command = 'SELECT * FROM infections WHERE postcode=%s'
-    values = (postcode,)
-    db_result = database.fetch(command, values)
-    if (len(db_result) != 0):
-        covidSafeScore = covidSafeScore / 2
+    healthScore = score_calculator.calculateNSWHealthCovidSafeScore(postcode)
+    popularTimesScore = score_calculator.calculateTimeOfDayCovidSafeScore(place_id)
+    userRatingScore = score_calculator.calculateUserRatings(place_id)
+    allScores = [reviewScore, healthScore, popularTimesScore, userRatingScore]
+    scoreWeights = [5, 60, 25, 10]
+    totalWeight = 0
+    totalScore = 0
+    for i in range(len(allScores)):
+        if allScores[i] != -1:
+            totalWeight += scoreWeights[i]
+            totalScore += allScores[i]
+        else:
+            print("we hit a -1")
+    if totalWeight == 0:
+        return 10    # If no information available at all then it is likely the place is reasonably covid safe
+    scaledCovidScore = (totalScore/totalWeight) * 100 # Otherwise return the weighted covid score
     return {
-        "score": covidSafeScore
+        "score": round(scaledCovidScore)
     }
 
 @app.route("/rating", methods=['GET', 'POST'])
@@ -40,28 +51,3 @@ def saveCovidSafeScore():
     command = "INSERT INTO ratings VALUES(%s, %s)"
     values = (place_id, rating)
     database.execute(command, values)
-
-@app.route("/scoreTesting", methods=['GET'])
-def scoreTesting():
-    numRatings = 1181
-    reviewScore = ratings_test.calculateNumberOfReviewsCovidScore(numRatings)
-    healthScore = ratings_test.calculateNSWHealthCovidSafeScore(2170)
-    
-    popularTimesScore = ratings_test.calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
-    userRatingScore = ratings_test.calculateUserRatings("ChIJLynSq19fDWsRsvj0fl2_ODI")
-    allScores = [reviewScore, healthScore, popularTimesScore, userRatingScore]
-    scoreWeights = [5, 60, 25, 10]
-    totalWeight = 0
-    totalScore = 0
-    for i in range(len(allScores)):
-        if allScores[i] != -1:
-            totalWeight += scoreWeights[i]
-            totalScore += allScores[i]
-        else:
-            print("we hit a -1")
-    if totalWeight == 0:
-        return 10    # If no information available at all then it is likely the place is reasonably covid safe
-    scaledCovidScore = (totalScore/totalWeight) * 100 # Otherwise return the weighted covid score
-    return {
-        'total covidSafeScore' : scaledCovidScore
-    } 
