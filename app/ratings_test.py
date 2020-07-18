@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 
 from app import populartimes_api
 
+# Score based on number of reviews/popularity on google places 5%
+
 def calculateNumberOfReviewsCovidScore(numRatings):
     dangerScore = math.pow(math.e, 0.004 * numRatings) - 1
     if dangerScore >= 5:
@@ -17,7 +19,7 @@ def calculateNumberOfReviewsCovidScore(numRatings):
     else:
         return dangerScore
 
-# NSW Health Score (/60)
+# NSW Health Score 60%
 
 def calculateNSWHealthCovidSafeScore(postcode):
     # Get number of covid cases in that postcode within 3 weeks
@@ -40,12 +42,24 @@ def calculateNSWHealthCovidSafeScore(postcode):
     modulated_covid_score = math.pow(math.e, 0.1 * nsw_health_covid_score) - 1
     return modulated_covid_score
 
+# Score based on current popularity level 25%
 def calculateTimeOfDayCovidSafeScore(place_id):
     popular_times = populartimes_api.getPopularTimes(place_id)
     print(popular_times)
-    return popular_times
+    current_time = datetime.now()
+    current_day = current_time.weekday()
+    weekday_map = {
+        0 : "Monday",
+        1 : "Tuesday",
+        2 : "Wednesday",
+        3 : "Thursday",
+        4 : "Friday",
+        5 : "Saturday",
+        6 : "Sunday"
+    }
+    return popular_times["populartimes"][weekday_map[current_day]]
 
-# if __name__ == '__main__':
-#     load_dotenv()
-    
+# Score based on ratings from users of our app (users can rate the covid safety of a particular location) 10%
+def calculateUserRatings(place_id):
+    return 0
     
