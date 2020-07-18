@@ -6,7 +6,7 @@ def getPopularTimes(id):
     values = (id,)
     result_db = app.database.fetch(command, values)
     if (len(result_db) == 0):
-        print(os.getenv("google_api_key"))
+        print(os.getenv("GOOGLE_API_KEY"))
         result = livepopulartimes.get_populartimes_by_PlaceID(os.getenv("GOOGLE_API_KEY"), id)
         
         json_string = json.dumps(result)
