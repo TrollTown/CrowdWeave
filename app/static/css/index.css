@@ -8,8 +8,11 @@
     height: 100%;
 }
 
-body {
+html, body {
     background-color: white;
     font-family: trial;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
