@@ -75,5 +75,5 @@ def calculateUserRatings(place_id):
         return -1
     else:
         print(data)
-        return sum([int(x) for x in data[0][1]])/len(data[0][1])
+        return sum([x[1] for x in data])/len(data)
 
