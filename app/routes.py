@@ -53,7 +53,7 @@ def covidsafeScore():
                 print(e)
     else:
         try:
-            numRatings = populartimes_result['user_ratings_total']
+            numRatings = populartimes_result['rating_n']
         except KeyError as e:
             print("KeyError")
             print(e)
