@@ -72,7 +72,7 @@ def calculateUserRatings(place_id):
     cur.execute("SELECT * FROM ratings WHERE place_id=%s", (place_id,))
     data = cur.fetchall()
     if len(data) == 0:
-        return -1;
+        return -1
     else:
-        return sum(data[0][0])/len(data[0][0])
+        return sum([int(x) for x in data[0][0]])/len(data[0][0])
 
