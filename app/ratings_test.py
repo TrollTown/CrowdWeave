@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 
-from populartimes_api import getPopularTimes
+from app import populartimes_api
 
 def calculateNumberOfReviewsCovidScore(numRatings):
     dangerScore = math.pow(math.e, 0.004 * numRatings) - 1
@@ -41,7 +41,7 @@ def calculateNSWHealthCovidSafeScore(postcode):
     return modulated_covid_score
 
 def calculateTimeOfDayCovidSafeScore(place_id):
-    popular_times = getPopularTimes(place_id)
+    popular_times = populartimes_api.getPopularTimes(place_id)
     print(popular_times)
 
 # if __name__ == '__main__':
