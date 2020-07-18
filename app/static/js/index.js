@@ -194,6 +194,7 @@ function populateSidebar(place_list) {
     // console.log(place_list);
     // console.log("NEXT");
     let sideBar = document.getElementById("sidebar");
+    sideBar.style.height = '500px';
     while (sideBar.firstChild) {
         sideBar.removeChild(sideBar.firstChild);
     }
@@ -225,6 +226,7 @@ function populateSidebar(place_list) {
             map.setCenter(e.target.placeProp.place.geometry.location);
             map.setZoom(16);
             populateSidebar2(e.target.placeProp);
+            sideBar.style.height = 0;
             openNav2();
         });
         sideBar.appendChild(placeCard);
