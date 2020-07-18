@@ -5,6 +5,7 @@
 import math
 import psycopg2
 from datetime import datetime, timedelta
+import os
 
 def calculateNumberOfReviewsCovidScore(numRatings):
     dangerScore = math.pow(math.e, 0.004 * numRatings) - 1
