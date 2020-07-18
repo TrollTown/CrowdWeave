@@ -4,8 +4,12 @@
     font-weight: bold;
 }
 
+#map {
+    height: 100%;
+}
+
 body {
-    background-color: blue;
+    background-color: white
     font-family: trial;
 }
 
