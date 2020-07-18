@@ -1,3 +1,11 @@
+@font-face{
+    font-family: trial;
+    src: url('/static/css/Montserrat-Regular.ttf');
+    font-weight: bold;
+}
+
 body {
     background-color: blue;
+    font-family: trial;
 }
+
