@@ -6,8 +6,9 @@ def getPopularTimes(id):
     values = (id,)
     result_db = app.database.fetch(command, values)
     if (len(result_db) == 0):
-
+        print(os.getenv("google_api_key"))
         result = livepopulartimes.get_populartimes_by_PlaceID(os.getenv("google_api_key"), id)
+        
         json_string = json.dumps(result)
         command = "INSERT INTO places (place_id, popular_times_response) VALUES (%s, %s)"
         values = (id, json_string)
