@@ -16,7 +16,6 @@ def covidsafeScore():
     # Get number of google reviews
     populartimes_result = populartimes_api.getPopularTimes(place_id)
     numRatings = populartimes_result['rating_n']
-    numRatings = numRatings
     covidSafeScore = 10.3 - ((132 + (-263)/(1 + pow((numRatings / 1592), 0.001977))) * 10)
     postcode = populartimes_result['address'][4:]
     command = 'SELECT * FROM infections WHERE postcode=%s'
@@ -24,7 +23,6 @@ def covidsafeScore():
     db_result = database.fetch(command, values)
     if (len(db_result) != 0):
         covidSafeScore = covidSafeScore / 2
-
     return {
         "score": covidSafeScore
     }
