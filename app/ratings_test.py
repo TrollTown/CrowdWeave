@@ -74,5 +74,6 @@ def calculateUserRatings(place_id):
     if len(data) == 0:
         return -1
     else:
+        print(data)
         return sum([int(x) for x in data[0][0]])/len(data[0][0])
 
