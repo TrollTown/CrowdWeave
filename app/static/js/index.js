@@ -2,7 +2,7 @@ var map;
 
 function getCovidsafeScore(place_id) {
     $.ajax({
-        url: '/covidsafeScore?place_id=' + place_id,
+        url: 'https://covidsafebutbetter.trolltown.codes/covidsafeScore?place_id=' + place_id,
         success: function (result) {
             console.log('covidsafeScore', result);
         }
@@ -10,18 +10,29 @@ function getCovidsafeScore(place_id) {
 }
 
 function getListOfPlaces(place_name) {
-    var request = {
+    let request = {
         query: place_name,
         fields: ["formatted_address","business_status","geometry","icon","name","place_id"]
     };
     
     service = new google.maps.places.PlacesService(map);
     
-    service.findPlaceFromQuery(request, function(results, status) {
+    service.textSearch(request, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            getCovidsafeScore(results[0].place_id);
+            console.log(results)
+            addCovidScore(results);
         }
     });
+}
+
+function addCovidScore(place_list) {
+    let new_list = [];
+
+    for (let i = 0; i < place_list.length; i++) {
+        new_list.push((place_list[i], getCovidsafeScore(place_list[i].place_id)))
+    }
+
+    console.log(new_list);
 }
 
 function initMap() {
@@ -115,4 +126,13 @@ function initMap() {
 
 $(document).ready(function () {
     console.log('wazzup');
+    button = document.getElementById("searchBtn");
+    button.addEventListener("click", e => {
+        var place = document.getElementById("searchTextbox").value
+        console.log(place)
+        if (place.length == 0){
+            return
+        }
+        getListOfPlaces(place);
+    })
 });
