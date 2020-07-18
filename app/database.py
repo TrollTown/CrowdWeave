@@ -16,7 +16,7 @@ def fetch(command, values):
 
 def execute(command, values):
     connection = psycopg2.connect(user="covidsafe",
-                                password="Covidsafe2020",
+                                password=os.getenv("db_password"),
                                 host="localhost",
                                 port="5432",
                                 database="covidsafe")

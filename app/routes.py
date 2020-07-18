@@ -24,8 +24,23 @@ def covidsafeScore():
     db_result = database.fetch(command, values)
     if (len(db_result) != 0):
         covidSafeScore = covidSafeScore / 2
-    
 
     return {
         "score": covidSafeScore
     }
+
+@app.route("/rating", methods=['GET', 'POST'])
+def saveCovidSafeScore():
+    # Handle GET case
+    if request.method == 'GET':
+        return {
+            "rating" : 75
+        }
+    # Handle POST case
+    place_id = request.args.get('place_id')
+    rating = request.args.get('rating')
+    command = "INSERT INTO ratings VALUES(%s, %s)"
+    values = (place_id, rating)
+    database.execute(command, values)
+    
+    
