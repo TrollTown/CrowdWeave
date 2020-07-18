@@ -1,6 +1,10 @@
 from app import app, populartimes_api, database, score_calculator
 from flask import request, render_template
 
+import requests
+
+import os
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
     return render_template("index.html")
@@ -15,14 +19,19 @@ def covidsafeScore():
     place_id = request.args.get('place_id')
     # Get number of google reviews
     populartimes_result = populartimes_api.getPopularTimes(place_id)
+    if populartimes_result == None:
+        res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s?place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
+        return {
+            "stuff" : res
+        }
     try:
-
         numRatings = populartimes_result['rating_n']
     except KeyError as e:
         print("KeyError")
         print(e)
         numRatings = -1
     reviewScore = score_calculator.calculateNumberOfReviewsCovidScore(numRatings)
+
     postcode = populartimes_result['address'][4:]
     healthScore = score_calculator.calculateNSWHealthCovidSafeScore(postcode)
     popularTimesScore = score_calculator.calculateTimeOfDayCovidSafeScore(place_id)
