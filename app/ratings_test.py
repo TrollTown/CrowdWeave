@@ -30,7 +30,7 @@ def calculateNSWHealthCovidSafeScore(postcode):
     # Date format needs to be YYYY-MM-DD
     formatted_date = three_weeks_ago.strftime("%Y-%m-%d")
     cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) FROM infections WHERE postcode=%s AND notification_date >=%s", (postcode, formatted_date))
+    cur.execute("SELECT COUNT(*) FROM infections WHERE postcode=%s AND notification_date >=%s", (str(postcode), formatted_date))
     data = cur.fetchall()
     print("DATA:")
     print(data)
