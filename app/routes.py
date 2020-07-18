@@ -19,22 +19,45 @@ def covidsafeScore():
     place_id = request.args.get('place_id')
     # Get number of google reviews
     populartimes_result = populartimes_api.getPopularTimes(place_id)
-    print("TTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+    google_places_api_accessed = False
+    google_places_data = None
     if populartimes_result == None:
+        if res.status_code != 200:
+            postcode = -1
+            print("NOOOOOOOOOOOOO2")
+            numRatings = -1
+        else:
+            google_places_api_accessed = True
+            google_places_data = res.json()
+            print(google_places_data)
+            print("hello world")
+            postcode = google_places_data['formatted_address'].split(',')[-2][-4:]
+            print("new post code", postcode)
+    
+
         res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s&place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
         if res.status_code != 200:
             postcode = -1
-            print("NOOOOOOOOOOOOO")
+            print("NOOOOOOOOOOOOO2")
+            numRatings = -1
         else:
-            j = res.json()
-            print(j)
-            print("hello world")
-    try:
-        numRatings = populartimes_result['rating_n']
-    except KeyError as e:
-        print("KeyError")
-        print(e)
-        numRatings = -1
+            google_places_api_accessed = True
+            google_places_data = res.json()
+            print(google_places_data)
+            print("hello world2")
+            try:
+                numRatings = google_places_data['user_ratings_total']
+            except KeyError as e:
+                print("KeyError")
+                print(e)
+    else:
+        try:
+            numRatings = populartimes_result['user_ratings_total']
+        except KeyError as e:
+            print("KeyError")
+            print(e)
+            numRatings = -1
+
     reviewScore = score_calculator.calculateNumberOfReviewsCovidScore(numRatings)
 
     postcode = populartimes_result['address'][4:]
