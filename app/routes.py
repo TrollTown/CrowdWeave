@@ -48,11 +48,20 @@ def scoreTesting():
     healthScore = ratings_test.calculateNSWHealthCovidSafeScore(2170)
     
     popularTimesScore = ratings_test.calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
-    total = reviewScore + healthScore + popularTimesScore
-    print(total)
+    userRatingScore = ratings_test.calculateUserRatings("ChIJLynSq19fDWsRsvj0fl2_ODI")
+    allScores = [reviewScore, healthScore, popularTimesScore, userRatingScore]
+    scoreWeights = [5, 60, 25, 10]
+    totalWeight = 0
+    totalScore = 0
+    for i in range(len(allScores)):
+        if allScores[i] != -1:
+            totalWeight += scoreWeights[i]
+            totalScore += allScores[i]
+        else:
+            print("we hit a -1")
+    if totalWeight == 0:
+        return 10    # If no information available at all then it is likely the place is reasonably covid safe
+    scaledCovidScore = (totalScore/totalWeight) * 100 # Otherwise return the weighted covid score
     return {
-        'total covidSafeScore' : total
-    }
-
-    
-    
+        'total covidSafeScore' : scaledCovidScore
+    } 
