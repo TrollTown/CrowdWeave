@@ -55,7 +55,7 @@
     box-shadow: 0px 0px 3px rgba(0,0,0,0.75);
 }
 
-#mySidenav {
+#sidebar {
     height: 1000px;
     width: 350px;
     position: absolute;
@@ -67,6 +67,41 @@
     transition: 0.5s;
 }
 
+.place-card:hover {
+    cursor: pointer;
+}
+
+#sidebar2 {
+    height: 1000px;
+    width: 500px;
+    position: absolute;
+    z-index: 1;
+    top: 56px;
+    right: -550px;
+    background-color: #F8F9FA;
+    overflow-y: scroll;
+    transition: 0.5s;
+}
+
+#sidebar2Close {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    z-index: 1;
+    top: 56px;
+    right: -50px;
+    background-color: #F8F9FA;
+    transition: 0.5s;
+    background-image: url("https://image.flaticon.com/icons/svg/1828/1828774.svg");
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#sidebar2Close:hover {
+    cursor: pointer;
+}
+
 html, body {
     background-color: white;
     font-family: trial;
@@ -74,4 +109,3 @@ html, body {
     margin: 0;
     padding: 0;
 }
-
