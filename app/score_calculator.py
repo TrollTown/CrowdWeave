@@ -58,7 +58,14 @@ def calculateTimeOfDayCovidSafeScore(place_id):
     current_time = datetime.now()
     current_day = current_time.weekday()
     current_hour = current_time.hour
-    return popular_times['populartimes'][current_day]['data'][current_hour]/4
+    try:
+        time_of_day_score = popular_times['populartimes'][current_day]['data'][current_hour]/4
+    except KeyError as e:
+        print("KeyError")
+        print(e)
+        return -1
+    return time_of_day_score
+    
 
 # Score based on ratings from users of our app (users can rate the covid safety of a particular location) 10%
 def calculateUserRatings(place_id):
