@@ -20,10 +20,13 @@ def covidsafeScore():
     # Get number of google reviews
     populartimes_result = populartimes_api.getPopularTimes(place_id)
     if populartimes_result == None:
-        res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s?place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
-        return {
-            "stuff" : res
-        }
+        res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s&place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
+        if res.status_code != 200:
+            postcode = -1
+        else:
+            j = res.json()
+            print(j)
+            print("hello world")
     try:
         numRatings = populartimes_result['rating_n']
     except KeyError as e:
