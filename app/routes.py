@@ -44,10 +44,10 @@ def saveCovidSafeScore():
 @app.route("/scoreTesting", methods=['GET'])
 def scoreTesting():
     numRatings = 1181
-    reviewScore = calculateNumberOfReviewsCovidScore(numRatings)
-    healthScore = calculateNSWHealthCovidSafeScore(2170)
+    reviewScore = ratings_test.calculateNumberOfReviewsCovidScore(numRatings)
+    healthScore = ratings_test.calculateNSWHealthCovidSafeScore(2170)
     total = reviewScore + healthScore
-    calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
+    ratings_test.calculateTimeOfDayCovidSafeScore("ChIJLynSq19fDWsRsvj0fl2_ODI")
     print(total)
     
     
