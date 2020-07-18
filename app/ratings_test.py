@@ -18,6 +18,7 @@ def calculateNumberOfReviewsCovidScore(numRatings):
 
 def calculateNSWHealthCovidSafeScore(postcode):
     # Get number of covid cases in that postcode within 3 weeks
+    print(os.getenv("db_password"))
     conn = psycopg2.connect(user="covidsafe",
                     password=os.getenv("db_password"),
                     host="localhost",
