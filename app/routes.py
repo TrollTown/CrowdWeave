@@ -23,6 +23,7 @@ def covidsafeScore():
         res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s&place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
         if res.status_code != 200:
             postcode = -1
+            print("NOOOOOOOOOOOOO")
         else:
             j = res.json()
             print(j)
