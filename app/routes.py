@@ -19,6 +19,7 @@ def covidsafeScore():
     place_id = request.args.get('place_id')
     # Get number of google reviews
     populartimes_result = populartimes_api.getPopularTimes(place_id)
+    print("TTTTTTTTTTTTTTTTTTTTTTTTTTTT")
     if populartimes_result == None:
         res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s&place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
         if res.status_code != 200:
