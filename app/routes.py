@@ -15,7 +15,13 @@ def covidsafeScore():
     place_id = request.args.get('place_id')
     # Get number of google reviews
     populartimes_result = populartimes_api.getPopularTimes(place_id)
-    numRatings = populartimes_result['rating_n']
+    try:
+
+        numRatings = populartimes_result['rating_n']
+    except KeyError as e:
+        print("KeyError")
+        print(e)
+        numRatings = -1
     reviewScore = score_calculator.calculateNumberOfReviewsCovidScore(numRatings)
     postcode = populartimes_result['address'][4:]
     healthScore = score_calculator.calculateNSWHealthCovidSafeScore(postcode)

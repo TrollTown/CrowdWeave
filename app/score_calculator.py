@@ -13,6 +13,8 @@ from app import populartimes_api
 # Score based on number of reviews/popularity on google places 5%
 
 def calculateNumberOfReviewsCovidScore(numRatings):
+    if numRatings == -1:
+        return -1
     dangerScore = math.pow(math.e, 0.004 * numRatings) - 1
     if dangerScore >= 5:
         return 5
