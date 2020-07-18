@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 
-from .populartimes_api import getPopularTimes
+from populartimes_api import getPopularTimes
 
 def calculateNumberOfReviewsCovidScore(numRatings):
     dangerScore = math.pow(math.e, 0.004 * numRatings) - 1
