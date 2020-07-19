@@ -1,4 +1,5 @@
-# CovidSafeButBetter
+# CrowdWeave
+CSESoc Hackathon 2020
 
 # Team members
 
