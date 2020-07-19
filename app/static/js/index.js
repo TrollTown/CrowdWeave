@@ -248,8 +248,10 @@ function populateSidebar2(place_obj) {
     let placeCard = document.createElement("div");
     placeCard.classList.add("card");
     let placeCardPic = document.createElement("img");
-    let picUrl = place_obj.place.photos[0].getUrl({maxWidth: 500, maxHeight: 400});
-    placeCardPic.src = picUrl;
+    if (place_obj.place.photos != null) {
+        let picUrl = place_obj.place.photos[0].getUrl({maxWidth: 500, maxHeight: 400});
+        placeCardPic.src = picUrl;
+    }
     placeCardPic.classList.add("card-img-top");
     placeCard.appendChild(placeCardPic);
     let placeCardBody = document.createElement("div");
