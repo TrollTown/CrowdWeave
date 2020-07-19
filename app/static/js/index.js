@@ -340,10 +340,10 @@ async function populateSidebar2(place_obj) {
     placeCardList.appendChild(timesLabel);
 
     placeCardListCrowd.appendChild(newResult);
-    let placeCardListCases = document.createElement("li");
-    placeCardListCases.classList.add("list-group-item");
-    placeCardListCases.textContent = "Nearby COVID Cases:";
-    placeCardList.appendChild(placeCardListCases);
+    // let placeCardListCases = document.createElement("li");
+    // placeCardListCases.classList.add("list-group-item");
+    // placeCardListCases.textContent = "Nearby COVID Cases:";
+    // placeCardList.appendChild(placeCardListCases);
     placeCard.appendChild(placeCardList);
     sideBar2.appendChild(placeCard);
     sideBar2.appendChild(document.createElement("br"));
