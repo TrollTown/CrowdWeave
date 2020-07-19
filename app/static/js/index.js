@@ -201,6 +201,15 @@ function populateSidebar(place_list) {
         console.log("loop");
         let placeCard = document.createElement("div");
         placeCard.classList.add("card", "bg-light", "mb-3", "place-card");
+        if (place_list[i].covid_score < 10) {
+            placeCard.classList.add("border-success");
+        }
+        else if (place_list[i].covid_score < 50) {
+            placeCard.classList.add("border-warning");
+        }
+        else {
+            placeCard.classList.add("border-danger");
+        }
         let placeCardHeader = document.createElement("div");
         placeCardHeader.classList.add("card-header");
         placeCardHeader.textContent = "Rating: " + place_list[i].covid_score.toString();
@@ -295,10 +304,10 @@ function populateSidebar2(place_obj) {
     sideBar2.appendChild(placeCardCovText);
     let placeCardCovNum = document.createElement("h1");
     placeCardCovNum.textContent = place_obj.covid_score.toString();
-    if (place_obj.covid_score < 33) {
+    if (place_obj.covid_score < 10) {
         placeCardCovNum.style.color = "green";
     }
-    else if (place_obj.covid_score < 66) {
+    else if (place_obj.covid_score < 50) {
         placeCardCovNum.style.color = "rgb(239, 176, 2)";
     }
     else {
