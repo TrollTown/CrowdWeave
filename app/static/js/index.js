@@ -223,6 +223,7 @@ function populateSidebar(place_list) {
         placeCard.appendChild(placeCardBody);
         placeCard.placeProp = place_list[i];
         placeCard.addEventListener("click", e => {
+            console.log('element', e.target.placeProp);
             map.setCenter(e.target.placeProp.place.geometry.location);
             map.setZoom(16);
             populateSidebar2(e.target.placeProp);
@@ -233,7 +234,35 @@ function populateSidebar(place_list) {
     }
 }
 
-function populateSidebar2(place_obj) {
+function getTime(i) {
+    if (i == 0) {
+        return "12am";
+    } else if (i == 12) {
+        return "12pm";
+    }
+    else if (i < 12) {
+        return i.toString() + 'am';
+    } else {
+        return (i % 12) + 'pm';
+    }
+}
+
+async function getPopularTimes(element, place_id) {
+    console.log('element', element);
+    let response = await fetch('https://covidsafebutbetter.trolltown.codes/populartimes?place_id=' + place_id);
+    let responseOk = await response.json();
+    console.log('responseOk', responseOk);
+    if (responseOk.populartimes != null) {
+        console.log('adding popular times');
+        for (let i = 0; i < responseOk.populartimes[0].data.length; i++) {
+            element.innerHTML += '<div class="bar" style="height: ' + responseOk.populartimes[0].data[i] + 'px"></div>';
+        }
+    }
+    return element;
+}
+
+async function populateSidebar2(place_obj) {
+
     let sideBar2 = document.getElementById("sidebar2");
     while (sideBar2.firstChild) {
         sideBar2.removeChild(sideBar2.firstChild);
@@ -281,9 +310,27 @@ function populateSidebar2(place_obj) {
     placeCardListTags.textContent = "Tags: " + tagString;
     placeCardList.appendChild(placeCardListTags);
     let placeCardListCrowd = document.createElement("li");
+
+    let placeCardListCrowdDiv = document.createElement("div");
+    placeCardListCrowdDiv.classList.add('popular-times');
+    let newResult = await getPopularTimes(placeCardListCrowdDiv, place_obj.place.place_id);
+    console.log('new Result', newResult);
+    let timesLabel = document.createElement('div');
+    for (i = 0; i < 24; i++) {
+        if (i % 3 == 0) {
+            timesLabel.innerHTML += '<div class="time-label">' + getTime(i) + '</div>';
+        } else {
+            timesLabel.innerHTML += '<div class="time-label"></div>';
+        }
+        
+    }
+    timesLabel.classList.add('time-labels');
     placeCardListCrowd.classList.add("list-group-item");
     placeCardListCrowd.textContent = "Crowd Presence:";
     placeCardList.appendChild(placeCardListCrowd);
+    placeCardList.appendChild(timesLabel);
+
+    placeCardListCrowd.appendChild(newResult);
     let placeCardListCases = document.createElement("li");
     placeCardListCases.classList.add("list-group-item");
     placeCardListCases.textContent = "Nearby COVID Cases:";

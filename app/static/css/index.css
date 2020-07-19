@@ -112,3 +112,33 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+.bar {
+    background-color: #7BAAF7;
+    -webkit-border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    width: 100%;    
+    bottom: 0;
+}
+
+.popular-times {
+    display: flex;
+    align-items: baseline;
+    border-top: 1px dashed #E0E0E0;
+    width: 360px;
+    height: 76px;   
+    box-sizing: border-box;
+}
+
+.time-labels {
+    display: flex;
+    flex-direction: row;
+    margin-left: 5%;
+}
+
+.time-label {
+    font-size: 11px;
+    margin-left: 1%;
+    margin-right: 1%;
+}
