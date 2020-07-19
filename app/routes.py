@@ -74,14 +74,13 @@ def covidsafeScore():
     scoreWeights = [5, 60, 25, 10]
     totalWeight = 0
     totalScore = 0
+    print(allScores)
     for i in range(len(allScores)):
         if allScores[i] != -1:
             totalWeight += scoreWeights[i]
             totalScore += allScores[i]
-        else:
-            print("we hit a -1")
     if totalWeight == 0:
-        return 10    # If no information available at all then it is likely the place is reasonably covid safe
+        return 5    # If no information available at all then it is likely the place is reasonably covid safe
     scaledCovidScore = (totalScore/totalWeight) * 100 # Otherwise return the weighted covid score
     return {
         "score": round(scaledCovidScore)
