@@ -62,6 +62,7 @@ def calculateTimeOfDayCovidSafeScore(place_id):
     current_hour = current_time.hour
     try:
         time_of_day_score = popular_times['populartimes'][current_day]['data'][current_hour]/4
+        print(popular_times['populartimes'][current_day]['data'])
     except KeyError as e:
         print("KeyError")
         print(e)
