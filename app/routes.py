@@ -22,6 +22,7 @@ def covidsafeScore():
     google_places_api_accessed = False
     google_places_data = None
     postcode = None
+    numRatings = None
     if populartimes_result == None:
         res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s&place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
         if res.status_code != 200:
