@@ -32,8 +32,7 @@ def covidsafeScore():
             google_places_data = res.json()
             print(google_places_data)
             print("hello world")
-            postcode = google_places_data['formatted_address'].split(',')[-2][-4:]
-            print("new post code", postcode)
+            
     
 
         res = requests.get('https://maps.googleapis.com/maps/api/place/details/json?key=%s&place_id=%s', (os.getenv("GOOGLE_API_KEY"), place_id))
@@ -60,8 +59,12 @@ def covidsafeScore():
             numRatings = -1
 
     reviewScore = score_calculator.calculateNumberOfReviewsCovidScore(numRatings)
-
-    postcode = populartimes_result['address'][4:]
+    try:
+        postcode = populartimes_result['address'][4:]
+    except TypeError:
+        if google_places_api_accessed == True:
+            postcode = google_places_data['formatted_address'].split(',')[-2][-4:]
+            print("new post code", postcode)
     healthScore = score_calculator.calculateNSWHealthCovidSafeScore(postcode)
     popularTimesScore = score_calculator.calculateTimeOfDayCovidSafeScore(place_id)
     userRatingScore = score_calculator.calculateUserRatings(place_id)
